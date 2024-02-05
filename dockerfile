@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 3000
 
 # Comando para ejecutar la aplicación
-CMD ["nodemon", "index.mjs"]
+CMD ["node", "index.mjs"]

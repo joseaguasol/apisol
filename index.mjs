@@ -22,6 +22,7 @@ import routerDetallePedido from "./routes/relaciones_detallepedido_route.mjs";
 import routerVentasVenta from "./routes/ventas_venta_route.mjs";
 import routerVentasRuta from "./routes/ventas_ruta_route.mjs";
 import routerClienteNR from "./routes/ventas_clientenr_route.mjs";
+import routerUbicacion from "./routes/relaciones_ubicacion_route.mjs";
 
 /** INICIA LA APP Y EL PUERTO */
 const app_sol = express();
@@ -60,7 +61,7 @@ io.on('connection', (socket) => {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const port = 8004;
+const port = 3000;
 //app_sol.use(multer())
 app_sol.use(cors());
 app_sol.use(express.json());
@@ -84,7 +85,8 @@ app_sol.use('/api',routerVentasVenta);
 app_sol.use('/api',routerVentasPromocion);
 app_sol.use('/api',routerProductoPromocion);
 app_sol.use('/api',routerVentasRuta);
-app_sol.use('/api',routerClienteNR)
+app_sol.use('/api',routerClienteNR);
+app_sol.use('/api',routerUbicacion);
 
 
 

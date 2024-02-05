@@ -113,7 +113,7 @@ create table ventas.cliente(
 --SE AGREDO EMPLEADO ID
 create table ventas.cliente_noregistrado(
 	id serial primary key,
-	empleado_id int not null,
+	empleado_id int,
 	nombre varchar(200),
 	apellidos varchar(300),
 	direccion varchar(200),
@@ -150,7 +150,8 @@ create table ventas.pedido(
 	tipo varchar(20),
 	foto varchar(200),
 	estado varchar(50), -- pendiente, en proceso, entregado
-	observacion varchar(1000)
+	observacion varchar(1000),
+	tipo_pago varchar(500)
 );
 
 --Table: ventas.producto
@@ -233,7 +234,7 @@ ALTER TABLE ventas.pedido ADD CONSTRAINT fk_pedido_cliente FOREIGN KEY (cliente_
 ALTER TABLE ventas.pedido ADD CONSTRAINT fk_pedido_clientenr FOREIGN KEY (cliente_nr_id) REFERENCES ventas.cliente_noregistrado (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --CLIENTE NR
-ALTER TABLE ventas.cliente_noregistrado ADD CONSTRAINT fk_clientnr_empleado FOREIGN KEY (empleado_id) REFERENCES persona.empleado (id) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE ventas.cliente_noregistrado ADD CONSTRAINT fk_clientnr_empleado FOREIGN KEY (empleado_id) REFERENCES personal.empleado (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- DETALLE PEDIDO
 ALTER TABLE relaciones.detalle_pedido ADD CONSTRAINT fk_detallepedido_promocion FOREIGN KEY (promocion_id) REFERENCES ventas.promocion (id) ON DELETE CASCADE ON UPDATE CASCADE;
