@@ -23,6 +23,16 @@ const modelUbicacion = {
         } catch (error) {
             throw new Error(`Error conseguir ${error}`)
         }
+    },
+    getUbicacionesCliente : async(clienteID) => {
+        try {
+            const ubicaciones = await db_pool.any('SELECT * FROM relaciones.ubicacion WHERE cliente_id=$1',[clienteID])
+            console.log("ubicaciones")
+            console.log(ubicaciones)
+            return ubicaciones
+        } catch (error) {
+            throw new Error(`Error conseguir ${error}`)
+        }
     }
 }
 export default modelUbicacion

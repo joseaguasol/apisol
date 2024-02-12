@@ -10,6 +10,19 @@ export const getAllUbicaciones = async (req,res) => {
     }
 }
 
+export const getUbicacionesXCliente = async (req,res) => {
+    try {
+        const { clienteID } = req.params;
+        const id = parseInt(clienteID, 10);
+        const ubicacionesCliente = await modelUbicacion.getUbicacionesCliente();
+
+        res.status(200).json(ubicacionesCliente);
+    } catch (error) {
+        res.status(500).json({error:error.message});
+
+    }
+
+}
 export const createUbicacion = async (req,res) => {
     try{
         const newUbicacion = req.body;
