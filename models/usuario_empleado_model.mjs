@@ -1,4 +1,5 @@
 import { db_pool } from "../config.mjs";
+import bcrypt from 'bcrypt';
 
 const modelUserEmpleado = {
     createUserEmpleado: async (empleado) => {
@@ -23,7 +24,7 @@ const modelUserEmpleado = {
                     
 
                     const empleados = await t.one('INSERT INTO personal.empleado (usuario_id, nombres, apellidos, dni, fecha_nacimiento, codigo_empleado) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *',
-                    [usuario.id, empleado.nombres, empleado.apellidos, empleado.licencia, empleado.dni, empleado.fecha_nacimiento]);
+                    [usuario.id, empleado.nombres, empleado.apellidos, empleado.dni, empleado.fecha_nacimiento,empleado.codigo_empleado]);
         
 
                     console.log("empleados+-++++");

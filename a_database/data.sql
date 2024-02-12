@@ -127,8 +127,8 @@ INSERT INTO relaciones.detalle_pedido(pedido_id, producto_id, cantidad) VALUES
 
 -- Insertar registros en ubicacion
 INSERT INTO relaciones.ubicacion (latitud,longitud,direccion,cliente_id,distrito) VALUES
-(0.0,0.0,'Av Default',1,'Default');
+(-16.411647,-71.5785222,'Av Default',1,'Default');
 
 -- Insertar registros en ubicacion
 INSERT INTO relaciones.ubicacion (latitud,longitud,direccion,cliente_nr_id,distrito) VALUES
-(-3.50,0.0,'Av Default',1,'Default');
+(-16.4291483,-71.5854854,'Av Default',1,'Default');
