@@ -16,10 +16,10 @@ const modelPedido = {
             if (pedido.cliente_id) {
                 // Si cliente_id existe, es un cliente registrado
                 const resultado = await paquete.tx(async (t) => {
-                    const pedidos_cr = await t.one(`INSERT INTO ventas.pedido (cliente_id, subtotal,descuento,total, fecha, tipo, estado)
-                        VALUES ($1, $2, $3, $4, $5,$6,$7)
+                    const pedidos_cr = await t.one(`INSERT INTO ventas.pedido (cliente_id, subtotal,descuento,total, fecha, tipo, estado,ubicacion_id)
+                        VALUES ($1, $2, $3, $4, $5,$6,$7,$8)
                         RETURNING *
-                        `, [pedido.cliente_id, pedido.subtotal, pedido.descuento, pedido.total, pedido.fecha, pedido.tipo, pedido.estado]);
+                        `, [pedido.cliente_id, pedido.subtotal, pedido.descuento, pedido.total, pedido.fecha, pedido.tipo, pedido.estado, pedido.ubicacion_id]);
 
                     console.log("pedidos cr");
                     console.log(pedidos_cr);
@@ -29,7 +29,7 @@ const modelPedido = {
                         vc.nombre, vc.apellidos, vc.telefono, rub.latitud, rub.longitud, rub.distrito
                         FROM ventas.pedido as vp
                         FULL JOIN ventas.cliente as vc ON vp.cliente_id = vc.id
-                        FULL JOIN relaciones.ubicacion as rub ON vc.id = rub.cliente_id
+                        FULL JOIN relaciones.ubicacion as rub ON vp.ubicacion_id = rub.id
                         WHERE estado = \'pendiente\' AND vp.id = $1;
                         `, [pedidos_cr.id]);
                     
