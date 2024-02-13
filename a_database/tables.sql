@@ -151,7 +151,8 @@ create table ventas.pedido(
 	foto varchar(200),
 	estado varchar(50), -- pendiente, en proceso, entregado
 	observacion varchar(1000),
-	tipo_pago varchar(500)
+	tipo_pago varchar(500),
+	ubicacion_id int
 );
 
 --Table: ventas.producto
@@ -273,6 +274,7 @@ ALTER TABLE personal.empleado ADD CONSTRAINT fk_empleado_usuario FOREIGN KEY (us
 -- UBICACION
 ALTER TABLE relaciones.ubicacion ADD CONSTRAINT fk_cliente_ubicacion FOREIGN KEY (cliente_id) REFERENCES ventas.cliente ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE relaciones.ubicacion ADD CONSTRAINT fk_cliente_nr_ubicacion FOREIGN KEY (cliente_nr_id) REFERENCES ventas.cliente_noregistrado ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE relaciones.ubicacion ADD CONSTRAINT fk_pedido_ubicacion_id FOREIGN KEY (ubicacion_id) REFERENCES ventas.pedido ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- reseteo secuencias
 -- Roles

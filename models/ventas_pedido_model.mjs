@@ -135,6 +135,18 @@ const modelPedido = {
             throw new Error(`Error getting pedido: ${error}`)
         }
     },
+    getPedidoCliente: async (clienteID) => {
+        console.log("dentro de get Pedidos para Clientes....")
+
+        try {
+            const pedidos = await db_pool.any(`SELECT vp.id, vp.total, vp.fecha, vp.estado, vp.tipo, vp.tipo_pago, ru.direccion FROM  ventas.pedido as vp INNER JOIN relaciones.ubicacion as ru ON vp.ubicacion_id = ru.id WHERE vp.cliente_id=$1`, [clienteID]);
+            console.log(pedidos)
+            return pedidos
+
+        } catch (error) {
+            throw new Error(`Error getting pedido: ${error}`)
+        }
+    },
 
     deletePedido: async (id) => {
         try {
