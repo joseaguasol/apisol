@@ -152,7 +152,7 @@ create table ventas.pedido(
 	estado varchar(50), -- pendiente, en proceso, entregado
 	observacion varchar(1000),
 	tipo_pago varchar(500),
-	ubicacion_id int,
+	ubicacion_id int
 );
 
 --Table: ventas.producto
