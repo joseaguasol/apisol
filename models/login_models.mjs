@@ -106,8 +106,6 @@ const modelLogin = {
 
             }
 
-            
-
             // Si no se encuentra en ninguna consulta
             return {message:"Usuario no encontrado ni asociado"};
         } catch (e) {
