@@ -14,7 +14,8 @@ export const getUbicacionesXCliente = async (req,res) => {
     try {
         const { clienteID } = req.params;
         const id = parseInt(clienteID, 10);
-        const ubicacionesCliente = await modelUbicacion.getUbicacionesCliente();
+        console.log("--------------DEL ID----------------------",id)
+        const ubicacionesCliente = await modelUbicacion.getUbicacionesCliente(id);
 
         res.status(200).json(ubicacionesCliente);
     } catch (error) {

@@ -25,8 +25,9 @@ const modelUbicacion = {
         }
     },
     getUbicacionesCliente : async(clienteID) => {
+        console.log("----------LLEGO EL CLIENTE_ID----------------------------")
         try {
-            const ubicaciones = await db_pool.any('SELECT * FROM relaciones.ubicacion WHERE cliente_id=$1',[clienteID])
+            const ubicaciones = await db_pool.any('SELECT * FROM relaciones.ubicacion WHERE cliente_id = $1',[clienteID])
             console.log("ubicaciones")
             console.log(ubicaciones)
             return ubicaciones
