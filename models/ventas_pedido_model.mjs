@@ -98,9 +98,9 @@ const modelPedido = {
                 vp.estado,
                 vp.tipo,
                 vp.observacion,
-                COALESCE(rub.latitud, rub_nr.latitud) as latitud,
-                COALESCE(rub.longitud, rub_nr.longitud) as longitud,
-                COALESCE(rub.distrito, rub_nr.distrito) as distrito,
+                rub.latitud,
+				rub.longitud,
+                rub.distrito,
                 COALESCE(vc.nombre, vcnr.nombre) as nombre,
                 COALESCE(vc.apellidos, vcnr.apellidos) as apellidos,
                 COALESCE(vc.telefono, vcnr.telefono) as telefono
@@ -109,8 +109,7 @@ const modelPedido = {
                 ventas.pedido as vp
             LEFT JOIN ventas.cliente as vc ON vp.cliente_id = vc.id
             LEFT JOIN ventas.cliente_noregistrado as vcnr ON vp.cliente_nr_id = vcnr.id
-            LEFT JOIN relaciones.ubicacion as rub ON vp.cliente_id = rub.cliente_id
-            LEFT JOIN relaciones.ubicacion as rub_nr ON vp.cliente_nr_id = rub_nr.cliente_nr_id
+            LEFT JOIN relaciones.ubicacion as rub ON vp.ubicacion_id = rub.id
             WHERE estado = \'pendiente\' ORDER BY vp.id ASC;`);
 
             console.log(pedidos)
