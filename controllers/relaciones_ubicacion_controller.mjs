@@ -16,6 +16,7 @@ export const getUbicacionesXCliente = async (req,res) => {
         const id = parseInt(clienteID, 10);
         console.log("--------------DEL ID----------------------",id)
         const ubicacionesCliente = await modelUbicacion.getUbicacionesCliente(id);
+        console.log("--------------DEL ID----------------------",id)
 
         res.status(200).json(ubicacionesCliente);
     } catch (error) {
