@@ -71,6 +71,34 @@ const modelUserConductor = {
             throw new Error(`Error query clients: ${err}`);
         }
     },
+    getPedidosPorConductor:async (conductorID) => {
+        try{
+            console.log("este es el conductor recibido")
+            console.log(conductorID)
+            const lastRuta = await db_pool.oneOrNone(`select vr.id from personal.conductor 
+            as pc inner join ventas.ruta as vr on pc.id = vr.conductor_id  
+            where pc.id= $1 order by vr.id desc limit 1`,[conductorID])
+
+            console.log("esta es su ultima ruta")
+            console.log(lastRuta)
+
+
+            const pedidos = await db_pool.any(`select *  from personal.conductor
+            as pc inner join ventas.ruta as vr 
+            on pc.id = vr.conductor_id 
+            inner join ventas.pedido as vp 
+            on vp.ruta_id = vr.id 
+            where vr.id = $1`,[lastRuta.id])
+
+            console.log("estos son los pedidos")
+            console.log(pedidos)
+
+            return pedidos
+
+        }catch(e){
+            throw new Error(`Error query pedido por conductor: ${err}`);
+        }
+    },
     deleteUserConductor: async (id) => {
         try {
             const result = await db_pool.result('DELETE FROM personal.usuario WHERE ID = $1', [id]);

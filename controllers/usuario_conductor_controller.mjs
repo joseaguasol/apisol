@@ -49,3 +49,15 @@ export const deleteUserConductores = async (req,res) => {
         res.status(500).json({ error: error.message });
     }
 }
+
+export const getPedidosPorConductores = async (req,res) => {
+    try {
+        const {conductorID}=req.params
+        const id = parseInt(conductorID, 10); 
+        const pedidosConductor= await modelUserConductor.getPedidosPorConductor(id);
+        res.json(pedidosConductor);
+    } catch (error) {
+        res.status(500).json({error:error.message});
+
+    }
+}
