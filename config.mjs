@@ -8,9 +8,9 @@ const pgp = pgPromise();
 const connectionStr = "postgres://aguasol:TntaHgQf9msnfmHXdrQWEXHEt1hut1MC@dpg-cml86oacn0vc739oj51g-a.oregon-postgres.render.com/aguasol_ui5l";
 export const db_pool = pgp({
     connectionString: connectionStr,
-    /*ssl: {
+    ssl: {
       rejectUnauthorized: false, // Puedes ajustar esto según tus necesidades de seguridad
-    },*/
+    },
   });
 
 try{
