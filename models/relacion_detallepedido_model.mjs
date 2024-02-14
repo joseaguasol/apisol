@@ -35,6 +35,15 @@ const modelDetallePedido = {
         } catch (error) {
             throw new Error(`Error query get: ${error}`);
         }
+    },
+
+    getDetallePedidoCliente: async (pedidoID) => {
+        try {
+            const productos = await db_pool.any('SELECT vp.id ,rdp.producto_id , vprod.nombre as producto_nombre, rdp.cantidad, vprod.foto,rdp.promocion_id, vprom.nombre as promocion_nombre, rpp.cantidad as cantidad_por_promo FROM ventas.pedido as vp INNER JOIN relaciones.detalle_pedido as rdp ON rdp.pedido_id = vp.id INNER JOIN ventas.producto as vprod ON vprod.id=rdp.producto_id FULL JOIN ventas.promocion AS vprom ON rdp.promocion_id =vprom.id FULL JOIN relaciones.producto_promocion AS rpp ON rpp.promocion_id=rdp.promocion_id WHERE vp.id=$1', [pedidoID])
+            return productos
+        } catch (error) {
+            throw new Error(`Error query get: ${error}`);
+        }
     }
 }
 export default modelDetallePedido;
