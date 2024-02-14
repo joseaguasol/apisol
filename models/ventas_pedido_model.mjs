@@ -138,7 +138,7 @@ const modelPedido = {
         console.log("dentro de get Pedidos para Clientes....")
 
         try {
-            const pedidos = await db_pool.any(`SELECT vp.cliente_id, vp.estado, vp.subtotal,  vp.descuento, vp.total, vp.tipo_pago, vp.tipo, vp.fecha, rdp.producto_id , vprod.nombre, rdp.cantidad, rdp.promocion_id, vprom.nombre, rub.direccion, rub.distrito FROM ventas.pedido as vp INNER JOIN relaciones.detalle_pedido as rdp ON rdp.pedido_id = vp.id INNER JOIN relaciones.ubicacion AS rub ON rub.id=vp.ubicacion_id INNER JOIN ventas.producto as vprod ON vprod.id=rdp.producto_id FULL JOIN ventas.promocion AS vprom ON rdp.promocion_id =vprom.id WHERE vp.cliente_id=$1;`, [clienteID]);
+            const pedidos = await db_pool.any(`SELECT vp.id, vp.estado, vp.subtotal,  vp.descuento, vp.total, vp.tipo_pago, vp.tipo, vp.fecha, rub.direccion, rub.distrito FROM ventas.pedido as vp INNER JOIN relaciones.ubicacion AS rub ON rub.id=vp.ubicacion_id WHERE vp.cliente_id=$1`, [clienteID]);
             console.log(pedidos)
             return pedidos
 
