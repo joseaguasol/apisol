@@ -29,4 +29,14 @@ export const getDetallePedidoXPedidos =  async (req,res) => {
         res.status(500).json({error:error.message})
     }
 }
+export const getDetallePedidosClientes =  async (req,res) => {
+    try {
+        const{pedidoID}=req.params;
+        const id=parseInt(pedidoID,10)
+        const allproductos = await modelDetallePedido.getDetallePedidoCliente(id);
+        res.json(allproductos)
+    } catch (error) {
+        res.status(500).json({error:error.message})
+    }
+}
 
