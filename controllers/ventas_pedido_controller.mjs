@@ -52,14 +52,14 @@ export const getPedidosConductor = async (req,res) => {
     }
 }
 
-export const getPedidoClientes = async (req,res) => {
+export const getPedidosClientes = async (req,res) => {
     console.log("id cliente llego")
 
     try{
         const {clienteID} = req.params;
         const id = parseInt(clienteID,10);
         console.log(id)
-        const getPedidoCli = await modelPedido.getPedidoCliente(id);
+        const getPedidoCli = await modelPedido.getPedidosCliente(id);
         res.json(getPedidoCli);
     } catch (error) {
         res.status(500).json({ error: error.message });
