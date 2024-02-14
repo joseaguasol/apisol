@@ -83,12 +83,16 @@ const modelUserConductor = {
             console.log(lastRuta)
 
 
-            const pedidos = await db_pool.any(`select *  from personal.conductor
-            as pc inner join ventas.ruta as vr 
-            on pc.id = vr.conductor_id 
-            inner join ventas.pedido as vp 
-            on vp.ruta_id = vr.id 
-            where vr.id = $1`,[lastRuta.id])
+            const pedidos = await db_pool.any(`select vp.id,vp.subtotal,vp.descuento,vp.total,vp.ruta_id,vp.fecha,vp.estado,vp.tipo,vp.observacion,rub.latitud,rub.longitud,rub.distrito,
+			COALESCE(vc.nombre, vcnr.nombre) as nombre,
+                COALESCE(vc.apellidos, vcnr.apellidos) as apellidos,
+                COALESCE(vc.telefono, vcnr.telefono) as telefono
+			from ventas.pedido as vp 
+			left join ventas.ruta as vr on vp.ruta_id = vr.id
+			left join ventas.cliente as vc on vp.cliente_id=vc.id
+			left join ventas.cliente_noregistrado as vcnr on vp.cliente_nr_id=vcnr.id
+			left join relaciones.ubicacion as rub on rub.id = vp.ubicacion_id
+			where vr.id = $1`,[lastRuta.id])
 
             console.log("estos son los pedidos")
             console.log(pedidos)
