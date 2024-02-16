@@ -137,11 +137,14 @@ const modelPedido = {
             COALESCE(vc.nombre, vcnr.nombre) as nombre,
             COALESCE(vc.apellidos, vcnr.apellidos) as apellidos,
             COALESCE(vc.telefono, vcnr.telefono) as telefono,
-            vc.direccion 
+            rub.latitud,
+			rub.longitud,
+            rub.direccion,
             FROM ventas.ruta as vr
             INNER JOIN ventas.pedido as vp ON vr.id = vp.ruta_id
             LEFT JOIN ventas.cliente as vc ON vp.cliente_id = vc.id
             LEFT JOIN ventas.cliente_noregistrado as vcnr ON vp.cliente_nr_id = vcnr.id
+            LEFT JOIN relaciones.ubicacion as rub ON vp.ubicacion_id = rub.id
                 WHERE ruta_id=$1 and conductor_id=$2`, [rutaID, conductorID]);
             console.log(pedidos)
             return pedidos
