@@ -129,7 +129,7 @@ const modelPedido = {
             const pedidos = await db_pool.any(`
             SELECT 
             vp.id, 
-            vp.tipo_pago
+            vp.tipo_pago,
             vp.total, 
             vp.fecha, 
             vp.estado,
@@ -139,7 +139,7 @@ const modelPedido = {
             COALESCE(vc.telefono, vcnr.telefono) as telefono,
             rub.latitud,
 			rub.longitud,
-            rub.direccion,
+            rub.direccion
             FROM ventas.ruta as vr
             INNER JOIN ventas.pedido as vp ON vr.id = vp.ruta_id
             LEFT JOIN ventas.cliente as vc ON vp.cliente_id = vc.id
