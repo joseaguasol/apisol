@@ -129,6 +129,7 @@ const modelPedido = {
             const pedidos = await db_pool.any(`
             SELECT 
             vp.id, 
+            vp.tipo_pago
             vp.total, 
             vp.fecha, 
             vp.estado,
