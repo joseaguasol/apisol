@@ -180,8 +180,8 @@ const modelPedido = {
 
         try {
             console.log('entro a update')
-            const result = await db_pool.oneOrNone('UPDATE ventas.pedido SET estado = $1,foto=$2,observacion=$3 WHERE id = $4 RETURNING *',
-                [newDatos.estado, newDatos.foto, newDatos.observacion, pedidoID]);
+            const result = await db_pool.oneOrNone('UPDATE ventas.pedido SET estado = $1,foto=$2,observacion=$3,tipo_pago=$4 WHERE id = $5 RETURNING *',
+                [newDatos.estado, newDatos.foto, newDatos.observacion, newDatos.tipo_pago,pedidoID]);
 
             if (!result) {
                 throw new Error(`No se encontró un pedido con ID ${id}.`);
