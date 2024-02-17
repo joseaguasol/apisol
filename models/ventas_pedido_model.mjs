@@ -134,6 +134,7 @@ const modelPedido = {
             vp.fecha, 
             vp.estado,
             vp.tipo, 
+            vp.observacion, 
             COALESCE(vc.nombre, vcnr.nombre) as nombre,
             COALESCE(vc.apellidos, vcnr.apellidos) as apellidos,
             COALESCE(vc.telefono, vcnr.telefono) as telefono,
@@ -179,8 +180,8 @@ const modelPedido = {
 
         try {
             console.log('entro a update')
-            const result = await db_pool.oneOrNone('UPDATE ventas.pedido SET estado = $1,foto=$2 WHERE id = $3 RETURNING *',
-                [newDatos.estado, newDatos.foto, pedidoID]);
+            const result = await db_pool.oneOrNone('UPDATE ventas.pedido SET estado = $1,foto=$2,observacion=$3 WHERE id = $4 RETURNING *',
+                [newDatos.estado, newDatos.foto, newDatos.observacion, pedidoID]);
 
             if (!result) {
                 throw new Error(`No se encontró un pedido con ID ${id}.`);
