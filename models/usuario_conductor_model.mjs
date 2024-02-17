@@ -71,6 +71,17 @@ const modelUserConductor = {
             throw new Error(`Error query clients: ${err}`);
         }
     },
+    getconductorruta:async() =>{
+        try {
+            const conductorruta= await db_pool.any(`
+            select pc.id,pc.nombres,pc.apellidos,pc.licencia,pc.dni,pc.fecha_nacimiento,vr.id as ruta
+            from personal.conductor pc
+            inner join ventas.ruta vr on pc.id = vr.conductor_id`)
+            return conductorruta
+        } catch (error) {
+            throw new Error(`Error query drivers: ${err}`);
+        }
+    },
     getPedidosPorConductor:async (conductorID) => {
         try{
             console.log("este es el conductor recibido")
