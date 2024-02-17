@@ -16,10 +16,10 @@ const modelPedido = {
             if (pedido.cliente_id) {
                 // Si cliente_id existe, es un cliente registrado
                 const resultado = await paquete.tx(async (t) => {
-                    const pedidos_cr = await t.one(`INSERT INTO ventas.pedido (cliente_id, subtotal,descuento,total, fecha, tipo, estado,ubicacion_id)
-                        VALUES ($1, $2, $3, $4, $5,$6,$7,$8)
+                    const pedidos_cr = await t.one(`INSERT INTO ventas.pedido (cliente_id, subtotal,descuento,total, fecha, tipo, estado,ubicacion_id,observacion)
+                        VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9)
                         RETURNING *
-                        `, [pedido.cliente_id, pedido.subtotal, pedido.descuento, pedido.total, pedido.fecha, pedido.tipo, pedido.estado, pedido.ubicacion_id]);
+                        `, [pedido.cliente_id, pedido.subtotal, pedido.descuento, pedido.total, pedido.fecha, pedido.tipo, pedido.estado,pedido.ubicacion_id,pedido.observacion]);
 
                     console.log("pedidos cr");
                     console.log(pedidos_cr);
@@ -134,6 +134,7 @@ const modelPedido = {
             vp.fecha, 
             vp.estado,
             vp.tipo, 
+            vp.observacion, 
             COALESCE(vc.nombre, vcnr.nombre) as nombre,
             COALESCE(vc.apellidos, vcnr.apellidos) as apellidos,
             COALESCE(vc.telefono, vcnr.telefono) as telefono,
@@ -179,8 +180,8 @@ const modelPedido = {
 
         try {
             console.log('entro a update')
-            const result = await db_pool.oneOrNone('UPDATE ventas.pedido SET estado = $1,foto=$2 WHERE id = $3 RETURNING *',
-                [newDatos.estado, newDatos.foto, pedidoID]);
+            const result = await db_pool.oneOrNone('UPDATE ventas.pedido SET estado = $1,foto=$2,observacion=$3,tipo_pago=$4 WHERE id = $5 RETURNING *',
+                [newDatos.estado, newDatos.foto, newDatos.observacion, newDatos.tipo_pago,pedidoID]);
 
             if (!result) {
                 throw new Error(`No se encontró un pedido con ID ${id}.`);
