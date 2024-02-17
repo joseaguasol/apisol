@@ -126,7 +126,26 @@ const modelPedido = {
         console.log("dentro de get Pedidos para Conductores....")
 
         try {
-            const pedidos = await db_pool.any(`SELECT vp.id, vp.total, vp.fecha, vp.estado, vp.tipo, vc.nombre, vc.apellidos, vc.telefono, vc.direccion FROM ventas.ruta as vr INNER JOIN ventas.pedido as vp ON vr.id = vp.ruta_id INNER JOIN ventas.cliente as vc ON vp.cliente_id = vc.id WHERE ruta_id=$1 and conductor_id=$2`, [rutaID, conductorID]);
+            const pedidos = await db_pool.any(`
+            SELECT 
+            vp.id, 
+            vp.tipo_pago,
+            vp.total, 
+            vp.fecha, 
+            vp.estado,
+            vp.tipo, 
+            COALESCE(vc.nombre, vcnr.nombre) as nombre,
+            COALESCE(vc.apellidos, vcnr.apellidos) as apellidos,
+            COALESCE(vc.telefono, vcnr.telefono) as telefono,
+            rub.latitud,
+			rub.longitud,
+            rub.direccion
+            FROM ventas.ruta as vr
+            INNER JOIN ventas.pedido as vp ON vr.id = vp.ruta_id
+            LEFT JOIN ventas.cliente as vc ON vp.cliente_id = vc.id
+            LEFT JOIN ventas.cliente_noregistrado as vcnr ON vp.cliente_nr_id = vcnr.id
+            LEFT JOIN relaciones.ubicacion as rub ON vp.ubicacion_id = rub.id
+                WHERE ruta_id=$1 and conductor_id=$2`, [rutaID, conductorID]);
             console.log(pedidos)
             return pedidos
 
