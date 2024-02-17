@@ -20,6 +20,15 @@ export const createUserConductores = async (req,res) => {
         res.status(500).json({error:e.message})
     }
 }
+export const getconductorrutas = async (req,res) => {
+    try {
+        const allgetconductorruta = await modelUserConductor.getconductorruta();
+        res.json(allgetconductorruta)
+    } catch (error) {
+        res.status(500).json({error:error.message})
+    }
+}
+
 export const updateUserConductores = async (req,res)=>{
     try {
         const {userConductorId} = req.params;
