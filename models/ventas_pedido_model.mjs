@@ -57,7 +57,7 @@ const modelPedido = {
                     const pedidoss = await t.one(`SELECT vp.id,vp.subtotal,vp.descuento,vp.total,vp.ruta_id,vp.fecha,vp.estado,vp.tipo,vp.observacion,vcnr.nombre,vcnr.apellidos,vcnr.telefono,rub.latitud,rub.longitud,rub.distrito
                         FROM ventas.pedido as vp
                         FULL JOIN ventas.cliente_noregistrado as vcnr ON vp.cliente_nr_id = vcnr.id
-                        FULL JOIN relaciones.ubicacion as rub ON vcnr.id = rub.cliente_nr_id
+                        FULL JOIN relaciones.ubicacion as rub ON vp.ubicacion_id = rub.id
                         WHERE estado =  \'pendiente\' and vp.id=$1`, [pedidos_nr.id]);
 
                     // PEDIDOS SOCKET
@@ -129,7 +129,7 @@ const modelPedido = {
             const pedidos = await db_pool.any(`
             SELECT 
             vp.id, 
-            vp.tipo_pago
+            vp.tipo_pago,
             vp.total, 
             vp.fecha, 
             vp.estado,
@@ -137,11 +137,14 @@ const modelPedido = {
             COALESCE(vc.nombre, vcnr.nombre) as nombre,
             COALESCE(vc.apellidos, vcnr.apellidos) as apellidos,
             COALESCE(vc.telefono, vcnr.telefono) as telefono,
-            vc.direccion 
+            rub.latitud,
+			rub.longitud,
+            rub.direccion
             FROM ventas.ruta as vr
             INNER JOIN ventas.pedido as vp ON vr.id = vp.ruta_id
             LEFT JOIN ventas.cliente as vc ON vp.cliente_id = vc.id
             LEFT JOIN ventas.cliente_noregistrado as vcnr ON vp.cliente_nr_id = vcnr.id
+            LEFT JOIN relaciones.ubicacion as rub ON vp.ubicacion_id = rub.id
                 WHERE ruta_id=$1 and conductor_id=$2`, [rutaID, conductorID]);
             console.log(pedidos)
             return pedidos
