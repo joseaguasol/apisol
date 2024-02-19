@@ -35,3 +35,20 @@ export const createUbicacion = async (req,res) => {
         res.status(500).json({error:e.message})
     }
 }
+
+
+export const getUbicacionesClienteNRS = async (req,res) => {
+    try {
+        const { clienteNRID } = req.params;
+        const id = parseInt(clienteNRID, 10);
+        console.log("--------------DEL ID----------------------",id)
+        const ubicacionesCliente = await modelUbicacion.getUbicacionesClienteNR(id);
+        console.log("--------------DEL ID----------------------",id)
+
+        res.status(200).json(ubicacionesCliente);
+    } catch (error) {
+        res.status(500).json({error:error.message});
+
+    }
+
+}

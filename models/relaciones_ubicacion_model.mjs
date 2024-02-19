@@ -34,6 +34,14 @@ const modelUbicacion = {
         } catch (error) {
             throw new Error(`Error conseguir ${error}`)
         }
+    },
+    getUbicacionesClienteNR : async(clienteNRID) => {
+        try {
+            const ubicacion = await db_pool.oneOrNone('SELECT * FROM relaciones.ubicacion WHERE cliente_nr_id = $1 ORDER BY id DESC',[clienteNRID])
+            return ubicacion
+        } catch (error) {
+            throw new Error(`Error conseguir id ${error}`)
+        }
     }
 }
 export default modelUbicacion
