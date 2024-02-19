@@ -5,7 +5,7 @@ const routerVentasPedido = express.Router();
 routerVentasPedido.get('/pedido',getPedidos)
 routerVentasPedido.post('/pedido',createPedidos)
 routerVentasPedido.get('/pedido_cliente/:clienteID',getPedidosClientes)
-routerVentasPedido.get('/pedido_cliente/:clienteNRID',getUbicacionesClienteNRS)
+routerVentasPedido.get('/pedido_clientenr/:clienteNRID',getUbicacionesClienteNRS)
 routerVentasPedido.get('/pedido_conductor/:rutaID/:conductorID',getPedidosConductor)
 routerVentasPedido.get('/pedido_last/:clienteID',getLastPedidos)
 routerVentasPedido.delete('/pedido/:pedidoID', deletePedidos)
