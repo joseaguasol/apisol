@@ -2,6 +2,7 @@ import { db_pool } from "../config.mjs";
 
 const modelDetallePedido = {
     createDetallePedido: async (detalle) =>{
+        const paquete = await db_pool.connect();
         try {
             if (detalle.cliente_id) {
                 // Si cliente_id existe, es un cliente registrado
