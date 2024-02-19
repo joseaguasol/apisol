@@ -1,4 +1,4 @@
-import { createPedidos, getLastPedidos, getPedidos,getPedidosClientes, deletePedidos,updateEstadoPedidos, updateRutaPedidos,getPedidosConductor, updateRutas} from '../controllers/ventas_pedido_controller.mjs';
+import { createPedidos, getLastPedidos, getPedidos,getPedidosClientes, deletePedidos,updateEstadoPedidos, updateRutaPedidos,getPedidosConductor} from '../controllers/ventas_pedido_controller.mjs';
 import express from 'express';
 
 const routerVentasPedido = express.Router();
@@ -10,6 +10,6 @@ routerVentasPedido.get('/pedido_last/:clienteID',getLastPedidos)
 routerVentasPedido.delete('/pedido/:pedidoID', deletePedidos)
 routerVentasPedido.put('/pedido_conductor/:pedidoID', updateEstadoPedidos)
 routerVentasPedido.put('/pedidoruta/:pedidoID',updateRutaPedidos)
-routerVentasPedido.put('/pedido/updateruta/:pedidoID',updateRutas)
+
 
 export default routerVentasPedido;
