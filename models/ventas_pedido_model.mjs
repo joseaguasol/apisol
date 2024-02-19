@@ -198,7 +198,7 @@ const modelPedido = {
             if (!result) {
                 return { "Message": "No se encontró un pedido con ese ID" }
             }
-            io.emit("ruteando",result)
+            io.emit("ruteando",true)
             return { result }
 
         } catch (error) {
