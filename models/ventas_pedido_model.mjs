@@ -47,10 +47,10 @@ const modelPedido = {
             } else {
                 const resultado = await paquete.tx(async (t) => {
                      // Si cliente_id es nulo, es un cliente no registrado
-                    const pedidos_nr = await t.one(`INSERT INTO ventas.pedido (cliente_nr_id, subtotal,descuento,total, fecha, tipo, estado)
-                        VALUES ($1, $2, $3, $4, $5,$6,$7)
+                    const pedidos_nr = await t.one(`INSERT INTO ventas.pedido (cliente_nr_id, subtotal,descuento,total, fecha, tipo, estado,observacion, ubicacion_id)
+                        VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9)
                         RETURNING *`,
-                        [pedido.cliente_nr_id, pedido.subtotal, pedido.descuento, pedido.total, pedido.fecha, pedido.tipo, pedido.estado]);
+                        [pedido.cliente_nr_id, pedido.subtotal, pedido.descuento, pedido.total, pedido.fecha, pedido.tipo, pedido.estado,pedido.observacion,pedido.ubicacion_id]);
                         console.log("pedidos nr");
                         console.log(pedidos_nr);
 
