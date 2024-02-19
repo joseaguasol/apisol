@@ -74,9 +74,32 @@ const modelUserConductor = {
     getconductorruta:async() =>{
         try {
             const conductorruta= await db_pool.any(`
-            select pc.id,pc.nombres,pc.apellidos,pc.licencia,pc.dni,pc.fecha_nacimiento,vr.id as ruta
-            from personal.conductor pc
-            inner join ventas.ruta vr on pc.id = vr.conductor_id`)
+            WITH ConductorDatosOrdenados AS (
+                SELECT
+                    pc.id AS conductor_id,
+                    pc.nombres,
+                    pc.apellidos,
+                    pc.licencia,
+                    pc.dni,
+                    pc.fecha_nacimiento,
+                    vr.id AS ruta_id,
+                    ROW_NUMBER() OVER (PARTITION BY pc.id ORDER BY vr.id DESC) AS rn
+                FROM
+                    personal.conductor pc
+                    INNER JOIN ventas.ruta vr ON pc.id = vr.conductor_id
+            )
+            SELECT
+                conductor_id AS id,
+                nombres,
+                apellidos,
+                licencia,
+                dni,
+                fecha_nacimiento,
+                ruta_id AS ruta
+            FROM
+                ConductorDatosOrdenados
+            WHERE
+                rn = 1;`)
             return conductorruta
         } catch (error) {
             throw new Error(`Error query drivers: ${err}`);

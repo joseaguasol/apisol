@@ -120,17 +120,4 @@ export const updateRutaPedidos = async(req,res)=>{
     }
 }
 
-export const updateRutas = async(req,res)=>{
-    try {
-        const {pedidoID} = req.params
-        const idpedido = parseInt(pedidoID,10)
-        
-        const ruta = req.body
-        const updateRuta = await modelPedido.updateRuta(idpedido,ruta)
-        res.json(updateRuta)
-
-    } catch (error) {
-        res.status(500).json({error:error.message})
-    }
-}
 

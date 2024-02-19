@@ -204,20 +204,7 @@ const modelPedido = {
             throw new Error(`Error en la actualización del pedido: ${error.message}`)
         }
     },
-    updateRuta: async (id,ruta) =>{
-        try {
-            const result = await db_pool.oneOrNone(
-                `UPDATE ventas.pedido
-                SET ruta_id=$1 WHERE id = $2 RETURNING *`,[ruta.ruta_id,id])
-            if(!result){
-                return {"Message":"No se encontró un pedido con ese ID"}
-            }
-            return { result }
-        } catch (error) {
-            throw new Error(`Error en la actualización del pedido: ${error.message}`)
-
-        }
-    }
+ 
 }
 
 export default modelPedido;
