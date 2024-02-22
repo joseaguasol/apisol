@@ -49,3 +49,12 @@ export const deleteUserClientes = async (req,res) => {
         res.status(500).json({ error: error.message });
     }
 }
+export const existCodeClientes = async (req,res) => {
+    try {
+        const newcodigo = req.body;
+        const clienteExists = await modelUserCliente.existCodeCliente(newcodigo)
+        res.status(200).json(clienteExists)
+    } catch (e) {
+        res.status(500).json({error:e.message})
+    }
+}
