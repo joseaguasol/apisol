@@ -223,7 +223,7 @@ create table relaciones.producto_promocion(
 -- ALTER TABLE orders ADD CONSTRAINT fk_orders_customers FOREIGN KEY (customer_id) REFERENCES customers (id);
 
 --- RUTA
-ALTER TABLE ventas.ruta ADD CONSTRAINT fk_ruta_empleado FOREIGN KEY (empleado_id) REFERENCES personal.empleado (id) ON DELETE CASCADE ON UPDATE CASCADE;;
+ALTER TABLE ventas.ruta ADD CONSTRAINT fk_ruta_empleado FOREIGN KEY (empleado_id) REFERENCES personal.empleado (id) ON DELETE SET NULL ON UPDATE CASCADE;;
 ALTER TABLE ventas.ruta ADD CONSTRAINT fk_ruta_conductor FOREIGN KEY (conductor_id) REFERENCES personal.conductor (id) ON DELETE CASCADE ON UPDATE CASCADE;;
 ALTER TABLE ventas.ruta ADD CONSTRAINT fk_ruta_zona_trabajo FOREIGN KEY (zona_trabajo_id) REFERENCES ventas.zona_trabajo (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
