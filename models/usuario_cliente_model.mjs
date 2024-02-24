@@ -96,13 +96,21 @@ const modelUserCliente = {
     },
     existCodeCliente : async(codigo) => {
         try {
-            const existCodigo = await db_pool.oneOrNone(`SELECT * FROM ventas.cliente WHERE codigo=$1`,
+            const existCodigo = await db_pool.oneOrNone(`SELECT codigo FROM ventas.cliente WHERE codigo=$1`,
             [codigo]);
             if(existCodigo){
-                return {'message':'código válido'}
+                console.log(existCodigo)
+                const saldo = await db_pool.oneOrNone(`SELECT saldo_beneficios FROM ventas.cliente WHERE codigo=$1`,[
+                    existCodigo
+                ])
+                const nuevoSaldo = saldo.saldo_beneficios + 2.00
+
+                await db_pool.oneOrNone(`UPDATE ventas.cliente SET saldo_beneficios= $1 WHERE codigo = $2`,[nuevoSaldo,existCodigo])
+                return true
             }
             else{
-                return {'message':'no existe código'}
+                console.log(existCodigo)
+                return false
             }
             
         } catch (error) {
