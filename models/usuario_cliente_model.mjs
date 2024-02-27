@@ -102,7 +102,7 @@ const modelUserCliente = {
             if(existCodigo.codigo){
                 console.log('si existe')
                 const saldo = await db_pool.oneOrNone(`SELECT saldo_beneficios FROM ventas.cliente WHERE codigo=$1`,[
-                    existCodigo
+                    existCodigo.codigo
                 ])
                 const nuevoSaldo = saldo.saldo_beneficios + 2.00
 
