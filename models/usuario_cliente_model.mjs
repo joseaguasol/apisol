@@ -106,7 +106,7 @@ const modelUserCliente = {
                 ])
                 const nuevoSaldo = saldo.saldo_beneficios + 2.00
 
-                await db_pool.oneOrNone(`UPDATE ventas.cliente SET saldo_beneficios= $1 WHERE codigo = $2`,[nuevoSaldo,existCodigo])
+                await db_pool.oneOrNone(`UPDATE ventas.cliente SET saldo_beneficios= $1 WHERE codigo = $2`,[nuevoSaldo,existCodigo.codigo])
                 return true
             }
             else{
