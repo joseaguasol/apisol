@@ -99,6 +99,7 @@ create table ventas.cliente(
 	distrito varchar(100),
 	RUC varchar(200),
 	fecha_nacimiento date,
+	fecha_creacion_cuenta date,
 	sexo varchar(100),
 	dni varchar(100),
 	codigo varchar(200),
