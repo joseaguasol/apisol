@@ -233,7 +233,7 @@ ALTER TABLE ventas.pedido ADD CONSTRAINT fk_pedido_ruta FOREIGN KEY (ruta_id) RE
 ALTER TABLE ventas.pedido ADD CONSTRAINT fk_pedido_cliente FOREIGN KEY (cliente_id) REFERENCES ventas.cliente (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- pedido-cliente nr
-ALTER TABLE ventas.pedido ADD CONSTRAINT fk_pedido_clientenr FOREIGN KEY (cliente_nr_id) REFERENCES ventas.cliente_noregistrado (id) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE ventas.pedido ADD CONSTRAINT fk_pedido_clientenr FOREIGN KEY (cliente_nr_id) REFERENCES ventas.cliente_noregistrado (id) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --CLIENTE NR
 ALTER TABLE ventas.cliente_noregistrado ADD CONSTRAINT fk_clientnr_empleado FOREIGN KEY (empleado_id) REFERENCES personal.empleado (id) ON DELETE SET NULL ON UPDATE CASCADE;
