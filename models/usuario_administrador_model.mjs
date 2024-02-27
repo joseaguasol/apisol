@@ -1,4 +1,5 @@
 import { db_pool } from "../config.mjs";
+import bcrypt from 'bcrypt';
 
 const modelUserAdmin = {
     createUserAdmin:async (admin) => {

@@ -10,7 +10,7 @@ const modelUserEmpleado = {
             console.log("usuarioexistente")
             console.log(UsuarioExistente)
             if (UsuarioExistente) {
-                return { "message": "Usuario ya existente, intente otro por favor. " }
+                return { message: "Usuario ya existente, intente otro por favor." }
             }
             else{
                 
@@ -32,7 +32,7 @@ const modelUserEmpleado = {
 
                     return { usuario, empleados } 
                 });
-                return result
+                return {resultado:result}
             }
           
            

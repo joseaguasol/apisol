@@ -14,7 +14,18 @@ export const createUserEmpleados = async (req,res) => {
     try{
         const newEmpleado = req.body;
         const empleadoCreated = await modelUserEmpleado.createUserEmpleado(newEmpleado);
-        res.json({empleadoCreated});
+        if(empleadoCreated.resultado){
+            console.log("toy aqui")
+            res.json(empleadoCreated);
+        }
+        else if(empleadoCreated.message==="Usuario ya existente, intente otro por favor."){
+            console.log("hoo")
+            res.status(409).json(empleadoCreated)
+        }
+        else{
+            res.status(500).json({error:"Respuesta inesperada del servidor"})
+        }
+        
     }
     catch(e){
         res.status(500).json({error:e.message})
