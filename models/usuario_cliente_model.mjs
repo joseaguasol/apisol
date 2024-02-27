@@ -98,8 +98,9 @@ const modelUserCliente = {
         try {
             const existCodigo = await db_pool.oneOrNone(`SELECT codigo FROM ventas.cliente WHERE codigo=$1`,
             [codigo]);
-            if(existCodigo){
-                console.log(existCodigo)
+            console.log(existCodigo.codigo)
+            if(existCodigo.codigo){
+                console.log('si existe')
                 const saldo = await db_pool.oneOrNone(`SELECT saldo_beneficios FROM ventas.cliente WHERE codigo=$1`,[
                     existCodigo
                 ])
@@ -109,7 +110,7 @@ const modelUserCliente = {
                 return true
             }
             else{
-                console.log(existCodigo)
+                console.log('no esistee')
                 return false
             }
             
