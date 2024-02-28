@@ -40,6 +40,19 @@ const modelPedido = {
                     return pedidoss; 
 
                 })
+                const existCodigo = await db_pool.oneOrNone(`SELECT codigo FROM ventas.cliente WHERE codigo=$1`,[pedido.codigo]);
+                console.log(existCodigo.codigo)
+                if(existCodigo.codigo){
+                    console.log('si existe')
+                    const saldo = await db_pool.oneOrNone(`SELECT saldo_beneficios FROM ventas.cliente WHERE codigo=$1`,[
+                    existCodigo.codigo
+                ])
+                const nuevoSaldo = saldo.saldo_beneficios + (3*pedido.cantidad_bidones)
+
+                await db_pool.oneOrNone(`UPDATE ventas.cliente SET saldo_beneficios= $1 WHERE codigo = $2`,[nuevoSaldo,existCodigo.codigo])
+
+            }
+            
                 console.log(resultado)
                 return resultado
 
