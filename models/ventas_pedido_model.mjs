@@ -47,9 +47,10 @@ const modelPedido = {
                     const saldo = await db_pool.oneOrNone(`SELECT saldo_beneficios FROM ventas.cliente WHERE codigo=$1`,[
                     existCodigo.codigo
                 ])
-                const nuevoSaldo = saldo.saldo_beneficios + 3.00
+                const nuevoSaldo = saldo.saldo_beneficios + (3*pedido.cantidad_bidones)
 
                 await db_pool.oneOrNone(`UPDATE ventas.cliente SET saldo_beneficios= $1 WHERE codigo = $2`,[nuevoSaldo,existCodigo.codigo])
+
             }
             
                 console.log(resultado)
