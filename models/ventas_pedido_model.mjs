@@ -134,6 +134,16 @@ const modelPedido = {
         }
     },
 
+    getPedidoEmpleado:async(empleadoID)=>{
+        try {
+            const pedidos = await db_pool.any(`select vr.id as idruta,vp.ruta_id,pe.nombres,vp.id,vp.estado,vp.tipo,vp.fecha,vp.total from ventas.ruta as vr
+            inner join ventas.pedido as vp on vr.id=vp.ruta_id
+            inner join personal.empleado as pe on vr.empleado_id = pe.id
+            where pe.id=$1`,[empleadoID])
+        } catch (error) {
+            throw new Error(`Error getting pedido ${error}`)
+        }
+    },
 
     getPedidoConductor: async (rutaID, conductorID) => {
         console.log("dentro de get Pedidos para Conductores....")
