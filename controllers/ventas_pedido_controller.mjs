@@ -52,6 +52,17 @@ export const getPedidosConductor = async (req,res) => {
     }
 }
 
+export const getPedidoEmpleados = async (req,res) => {
+    try {
+        const {empleadoID} =req.params
+        const id = parseInt(empleadoID,10)
+        const getPedidosEmpleado = await modelPedido.getPedidoEmpleado(id);
+        res.json(getPedidosEmpleado);
+    } catch (error) {
+        res.status(500).json({error:error.message})
+    }
+}
+
 export const getPedidosClientes = async (req,res) => {
     console.log("id cliente llego")
 
