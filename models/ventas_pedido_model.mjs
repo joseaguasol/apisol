@@ -136,10 +136,26 @@ const modelPedido = {
 
     getPedidoEmpleado:async(empleadoID)=>{
         try {
-            const pedidos = await db_pool.any(`select vr.id as idruta,vp.ruta_id,pe.nombres,vp.id,vp.estado,vp.tipo,vp.fecha,vp.total from ventas.ruta as vr
+            console.log("empleado id")
+            console.log(empleadoID)
+            const pedidos = await db_pool.any(`select
+            vr.id as idruta,
+            vp.id as npedido,
+            vp.estado,
+            vp.tipo,
+            vp.fecha,
+            vp.total,
+            pc.nombres,
+            vv.nombre_modelo as vehiculo
+            from ventas.ruta as vr
             inner join ventas.pedido as vp on vr.id=vp.ruta_id
+            inner join ventas.vehiculo as vv on vr.vehiculo_id=vv.id
+            inner join personal.conductor as pc on vr.conductor_id = pc.id
             inner join personal.empleado as pe on vr.empleado_id = pe.id
             where pe.id=$1`,[empleadoID])
+            console.log("pedidos")
+            console.log(pedidos)
+            return pedidos
         } catch (error) {
             throw new Error(`Error getting pedido ${error}`)
         }

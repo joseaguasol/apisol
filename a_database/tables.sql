@@ -132,6 +132,7 @@ create table ventas.cliente_noregistrado(
 create table ventas.ruta(
 	id serial primary key,
 	conductor_id int,
+	vehiculo_id int, -- VEHICULO ID
 	empleado_id int,
 	distancia_km int,
 	tiempo_ruta int,
@@ -180,8 +181,7 @@ create table ventas.promocion(
 -- Table: ventas.vehiculo
 create table ventas.vehiculo(
 	id serial primary key,
-	conductor_id int not null,
-	nombre_modelo varchar(200),
+	nombre_modelo varchar(200),  -- NO LLAVE CONDUCTOR 
 	placa varchar(100) not null
 	
 );
@@ -224,9 +224,10 @@ create table relaciones.producto_promocion(
 -- ALTER TABLE orders ADD CONSTRAINT fk_orders_customers FOREIGN KEY (customer_id) REFERENCES customers (id);
 
 --- RUTA
-ALTER TABLE ventas.ruta ADD CONSTRAINT fk_ruta_empleado FOREIGN KEY (empleado_id) REFERENCES personal.empleado (id) ON DELETE SET NULL ON UPDATE CASCADE;;
-ALTER TABLE ventas.ruta ADD CONSTRAINT fk_ruta_conductor FOREIGN KEY (conductor_id) REFERENCES personal.conductor (id) ON DELETE CASCADE ON UPDATE CASCADE;;
+ALTER TABLE ventas.ruta ADD CONSTRAINT fk_ruta_empleado FOREIGN KEY (empleado_id) REFERENCES personal.empleado (id) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE ventas.ruta ADD CONSTRAINT fk_ruta_conductor FOREIGN KEY (conductor_id) REFERENCES personal.conductor (id) ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE ventas.ruta ADD CONSTRAINT fk_ruta_zona_trabajo FOREIGN KEY (zona_trabajo_id) REFERENCES ventas.zona_trabajo (id) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE ventas.ruta ADD CONSTRAINT fk_ruta_vehiculo FOREIGN KEY (vehiculo_id) REFERENCES ventas.vehiculo (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- PEDIDO
 ALTER TABLE ventas.pedido ADD CONSTRAINT fk_pedido_ruta FOREIGN KEY (ruta_id) REFERENCES ventas.ruta (id) ON DELETE CASCADE ON UPDATE CASCADE;
@@ -250,7 +251,7 @@ ALTER TABLE relaciones.producto_promocion ADD CONSTRAINT fk_productopromocion_pr
 ALTER TABLE ventas.zona_trabajo ADD CONSTRAINT fk_zona_trabajo_admin FOREIGN KEY (administrador_id) REFERENCES personal.administrador (id);
 
 -- VEHICULO
-ALTER TABLE ventas.vehiculo ADD CONSTRAINT fk_vehiculo_conductor FOREIGN KEY (conductor_id) REFERENCES personal.conductor (id) ON DELETE CASCADE ON UPDATE CASCADE;
+ --- YA NO EXISTE LLAVE FORANEA CON CONDUCTOR
 
 
 -- COMPRA

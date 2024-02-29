@@ -38,6 +38,12 @@ INSERT INTO personal.administrador (usuario_id, nombres, apellidos, dni, fecha_n
 INSERT INTO personal.empleado (usuario_id, nombres, apellidos, dni, fecha_nacimiento, codigo_empleado) VALUES
   (2, 'pepe pepin', 'Apellido3', '4567890123', '1988-02-08', 'EMPL003');
 
+  
+-- Insertar registros en la tabla vehiculo
+INSERT INTO ventas.vehiculo (nombre_modelo,placa ) VALUES
+  ('Yueyin', 'XE-2L2');
+
+
 -- Insertar registros en la tabla conductor
 INSERT INTO personal.conductor (usuario_id, nombres, apellidos, licencia, dni, fecha_nacimiento) VALUES
   (11, 'lucrecia', 'Apellido3', 'DEF456', '7890123456', '1980-12-04'),
@@ -75,11 +81,11 @@ INSERT INTO ventas.cliente_noregistrado (empleado_id,nombre, apellidos, direccio
 
 
 -- Insertar registros en la tabla ruta
-INSERT INTO ventas.ruta (conductor_id, empleado_id, distancia_km, tiempo_ruta, zona_trabajo_id) VALUES
-  (1, 1, 50, 120, 1),
-  (2, 1, 80, 480, 1),
-  (3, 1, 83, 480, 1),
-  (3, 1, 94, 560, 1);
+INSERT INTO ventas.ruta (conductor_id, vehiculo_id,empleado_id, distancia_km, tiempo_ruta, zona_trabajo_id) VALUES
+  (1, 1, 1,50, 120,1),
+  (2, 1, 1,80, 480,1),
+  (3, 1, 1,83, 480,1),
+  (3, 1, 1,94, 560,1);
   
 
   
@@ -112,9 +118,6 @@ INSERT INTO relaciones.producto_promocion (promocion_id, producto_id, cantidad) 
   (3,4,1);
 
 
--- Insertar registros en la tabla vehiculo
-INSERT INTO ventas.vehiculo (conductor_id, nombre_modelo,placa ) VALUES
-  (1, 'Yueyin', 'XE-2L2');
   
 -- Insertar registros en la tabla compra
 INSERT INTO relaciones.detalle_pedido(pedido_id, producto_id, cantidad) VALUES
