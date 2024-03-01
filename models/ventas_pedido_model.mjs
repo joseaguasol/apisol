@@ -19,7 +19,7 @@ const modelPedido = {
                     const pedidos_cr = await t.one(`INSERT INTO ventas.pedido (cliente_id, subtotal,descuento,total, fecha, tipo, estado,ubicacion_id,observacion)
                         VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9)
                         RETURNING *
-                        `, [pedido.cliente_id, pedido.subtotal, pedido.descuento, pedido.total, pedido.fecha, pedido.tipo, pedido.estado,pedido.ubicacion_id,pedido.observacion]);
+                        `, [pedido.cliente_id, pedido.subtotal, pedido.descuento, pedido.total, pedido.fecha, pedido.tipo, pedido.estado, pedido.ubicacion_id, pedido.observacion]);
 
                     console.log("pedidos cr");
                     console.log(pedidos_cr);
@@ -32,40 +32,40 @@ const modelPedido = {
                         FULL JOIN relaciones.ubicacion as rub ON vp.ubicacion_id = rub.id
                         WHERE estado = \'pendiente\' AND vp.id = $1;
                         `, [pedidos_cr.id]);
-                    
-                                    // PEDIDOS SOCKET
+
+                    // PEDIDOS SOCKET
                     console.log('nuevoPedido Emitido');
                     io.emit('nuevoPedido', pedidoss);
 
-                    return pedidoss; 
+                    return pedidoss;
 
                 })
-                const existCodigo = await db_pool.oneOrNone(`SELECT codigo FROM ventas.cliente WHERE codigo=$1`,[pedido.codigo]);
+                const existCodigo = await db_pool.oneOrNone(`SELECT codigo FROM ventas.cliente WHERE codigo=$1`, [pedido.codigo]);
                 console.log(existCodigo.codigo)
-                if(existCodigo.codigo){
+                if (existCodigo.codigo) {
                     console.log('si existe')
-                    const saldo = await db_pool.oneOrNone(`SELECT saldo_beneficios FROM ventas.cliente WHERE codigo=$1`,[
-                    existCodigo.codigo
-                ])
-                const nuevoSaldo = saldo.saldo_beneficios + (3*pedido.cantidad_bidones)
+                    const saldo = await db_pool.oneOrNone(`SELECT saldo_beneficios FROM ventas.cliente WHERE codigo=$1`, [
+                        existCodigo.codigo
+                    ])
+                    const nuevoSaldo = saldo.saldo_beneficios + (3 * pedido.cantidad_bidones)
 
-                await db_pool.oneOrNone(`UPDATE ventas.cliente SET saldo_beneficios= $1 WHERE codigo = $2`,[nuevoSaldo,existCodigo.codigo])
+                    await db_pool.oneOrNone(`UPDATE ventas.cliente SET saldo_beneficios= $1 WHERE codigo = $2`, [nuevoSaldo, existCodigo.codigo])
 
-            }
-            
+                }
+
                 console.log(resultado)
                 return resultado
 
 
             } else {
                 const resultado = await paquete.tx(async (t) => {
-                     // Si cliente_id es nulo, es un cliente no registrado
+                    // Si cliente_id es nulo, es un cliente no registrado
                     const pedidos_nr = await t.one(`INSERT INTO ventas.pedido (cliente_nr_id, subtotal,descuento,total, fecha, tipo, estado,observacion, ubicacion_id)
                         VALUES ($1, $2, $3, $4, $5,$6,$7,$8,$9)
                         RETURNING *`,
-                        [pedido.cliente_nr_id, pedido.subtotal, pedido.descuento, pedido.total, pedido.fecha, pedido.tipo, pedido.estado,pedido.observacion,pedido.ubicacion_id]);
-                        console.log("pedidos nr");
-                        console.log(pedidos_nr);
+                        [pedido.cliente_nr_id, pedido.subtotal, pedido.descuento, pedido.total, pedido.fecha, pedido.tipo, pedido.estado, pedido.observacion, pedido.ubicacion_id]);
+                    console.log("pedidos nr");
+                    console.log(pedidos_nr);
 
                     const pedidoss = await t.one(`SELECT vp.id,vp.subtotal,vp.descuento,vp.total,vp.ruta_id,vp.fecha,vp.estado,vp.tipo,vp.observacion,vcnr.nombre,vcnr.apellidos,vcnr.telefono,rub.latitud,rub.longitud,rub.distrito
                         FROM ventas.pedido as vp
@@ -78,7 +78,7 @@ const modelPedido = {
                     return pedidoss
                 })
                 return resultado
-               
+
             }
 
 
@@ -134,7 +134,7 @@ const modelPedido = {
         }
     },
 
-    getPedidoEmpleado:async(empleadoID)=>{
+    getPedidoEmpleado: async (empleadoID) => {
         try {
             console.log("empleado id")
             console.log(empleadoID)
@@ -152,7 +152,7 @@ const modelPedido = {
             inner join ventas.vehiculo as vv on vr.vehiculo_id=vv.id
             inner join personal.conductor as pc on vr.conductor_id = pc.id
             inner join personal.empleado as pe on vr.empleado_id = pe.id
-            where pe.id=$1`,[empleadoID])
+            where pe.id=$1`, [empleadoID])
             console.log("pedidos")
             console.log(pedidos)
             return pedidos
@@ -220,7 +220,7 @@ const modelPedido = {
         try {
             console.log('entro a update')
             const result = await db_pool.oneOrNone('UPDATE ventas.pedido SET estado = $1,foto=$2,observacion=$3,tipo_pago=$4 WHERE id = $5 RETURNING *',
-                [newDatos.estado, newDatos.foto, newDatos.observacion, newDatos.tipo_pago,pedidoID]);
+                [newDatos.estado, newDatos.foto, newDatos.observacion, newDatos.tipo_pago, pedidoID]);
 
             if (!result) {
                 throw new Error(`No se encontró un pedido con ID ${id}.`);
@@ -237,14 +237,14 @@ const modelPedido = {
             if (!result) {
                 return { "Message": "No se encontró un pedido con ese ID" }
             }
-            io.emit("ruteando",true)
+            io.emit("ruteando", true)
             return { result }
 
         } catch (error) {
             throw new Error(`Error en la actualización del pedido: ${error.message}`)
         }
     },
- 
+
 }
 
 export default modelPedido;

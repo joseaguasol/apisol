@@ -24,7 +24,7 @@ const modelUserConductor = {
                     console.log(usuario.id)
                     
 
-                    const conductores = await t.one('INSERT INTO personal.conductor (usuario_id, nombres, apellidos, licencia, dni, fecha_nacimiento) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *',
+                    const conductores = await t.one('INSERT INTO personal.conductor (usuario_id, nombres, apellidos, licencia, dni, fecha_nacimiento,administrador_id) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *',
                     [usuario.id, conductor.nombres, conductor.apellidos, conductor.licencia, conductor.dni, conductor.fecha_nacimiento]);
         
 

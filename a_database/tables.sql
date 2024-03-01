@@ -167,7 +167,6 @@ create table ventas.producto(
 	nombre varchar(200) not null,
 	precio float not null,
 	descripcion varchar(200) not null,
-	stock int not null, -- PREGUNTAR
 	foto varchar(200)
 );
 
