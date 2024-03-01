@@ -5,7 +5,11 @@ INSERT INTO relaciones.roles (nombre) VALUES
   ('gerente'),
   ('cliente'),
   ('conductor');
-  
+    -- Insertar registros en la tabla zona_trabajo
+INSERT INTO ventas.zona_trabajo (nombre) VALUES
+  ('camana'),
+  ('la joya'),
+  ('omate');
   
  -- Insertar registros en la tabla usuario
 INSERT INTO personal.usuario (rol_id,nickname, contrasena, email) VALUES
@@ -41,7 +45,7 @@ INSERT INTO personal.empleado (usuario_id, nombres, apellidos, dni, fecha_nacimi
   
 -- Insertar registros en la tabla vehiculo
 INSERT INTO ventas.vehiculo (nombre_modelo,placa,administrador_id ) VALUES
-  ('Yueyin', 'XE-2L2',1);
+  ('Yueyin', 'XE-2L2',1),('tking','asdfq2222',1),('lexus','kkka23',1),('ford','xa233',1);
 
 
 -- Insertar registros en la tabla conductor
@@ -52,23 +56,19 @@ INSERT INTO personal.conductor (usuario_id, nombres, apellidos, licencia, dni, f
 
 
 	
-  -- Insertar registros en la tabla zona_trabajo
-INSERT INTO ventas.zona_trabajo (nombre) VALUES
-  ('camana'),
-  ('la joya'),
-  ('omate');
+
   
 
 	
 	
   -- Insertar registros en la tabla cliente
-INSERT INTO ventas.cliente (usuario_id, nombre, apellidos, fecha_nacimiento, sexo, direccion,telefono, dni, codigo, saldo_beneficios, direccion_empresa, suscripcion, RUC, nombre_empresa, zona_trabajo_id) VALUES
-  (5, 'juana mariana', 'perez', '1992-05-20', 'Femenino', 'Dirección1', '67890', '1234567890', 'COD123', 130, 'Empresa1', 'Suscripcion1',  '12345678901', 'Empresa A', 1),
-  (6, 'eliana', 'rojas', '1992-05-20', 'Femenino', 'Dirección1', '67890', '1234567890', 'COD123', 120, 'Empresa1', 'Suscripcion1',  '12345678901', 'Empresa A', 1),
-  (7, 'luis', 'sanchez', '1992-05-20', 'Femenino', 'Dirección1','67890',  '1234567890', 'COD123', 50, 'Empresa1', 'Suscripcion1',  '12345678901', 'Empresa A', 1),
-  (8, 'sara', 'lima', '1992-05-20', 'Femenino', 'Dirección1','67890',  '1234567890', 'COD123', 90, 'Empresa1', 'Suscripcion1',  '12345678901', 'Empresa A', 1),
-  (9, 'pedro', 'suarez', '1992-05-20', 'Masculino', 'Dirección1', '67890', '1234567890', 'COD123', 38, 'Empresa1', 'Suscripcion1',  '12345678901', 'Empresa A',1),
-  (10, 'javier', 'masias', '1992-05-20', 'Femenino', 'Dirección1', '67890', '1234567890', 'COD123', 200, 'Empresa1', 'Suscripcion1', '12345678901', 'Empresa A', 1);
+INSERT INTO ventas.cliente (usuario_id, nombre, apellidos, fecha_nacimiento,fecha_creacion_cuenta, sexo, direccion,telefono, dni, codigo, saldo_beneficios, direccion_empresa, suscripcion, RUC, nombre_empresa) VALUES
+  (5, 'juana mariana', 'perez', '1992-05-20','2024-03-01', 'Femenino', 'Dirección1', '67890', '1234567890', 'COD123', 130, 'Empresa1', 'Suscripcion1',  '12345678901', 'Empresa A'),
+  (6, 'eliana', 'rojas', '1992-05-20','2024-03-01', 'Femenino', 'Dirección1', '67890', '1234567890', 'COD123', 120, 'Empresa1', 'Suscripcion1',  '12345678901', 'Empresa A'),
+  (7, 'luis', 'sanchez', '1992-05-20','2024-03-01', 'Femenino', 'Dirección1','67890',  '1234567890', 'COD123', 50, 'Empresa1', 'Suscripcion1',  '12345678901', 'Empresa A'),
+  (8, 'sara', 'lima', '1992-05-20','2024-03-01', 'Femenino', 'Dirección1','67890',  '1234567890', 'COD123', 90, 'Empresa1', 'Suscripcion1',  '12345678901', 'Empresa A'),
+  (9, 'pedro', 'suarez', '1992-05-20','2024-03-01', 'Masculino', 'Dirección1', '67890', '1234567890', 'COD123', 38, 'Empresa1', 'Suscripcion1',  '12345678901', 'Empresa A'),
+  (10, 'javier', 'masias', '1992-05-20','2024-03-01', 'Femenino', 'Dirección1', '67890', '1234567890', 'COD123', 200, 'Empresa1', 'Suscripcion1', '12345678901', 'Empresa A');
 
  
 
@@ -81,11 +81,11 @@ INSERT INTO ventas.cliente_noregistrado (empleado_id,nombre, apellidos, direccio
 
 
 -- Insertar registros en la tabla ruta
-INSERT INTO ventas.ruta (conductor_id, vehiculo_id,empleado_id, distancia_km, tiempo_ruta) VALUES
-  (1, 1, 1,50, 120),
-  (2, 1, 1,80, 480),
-  (3, 1, 1,83, 480),
-  (3, 1, 1,94, 560);
+INSERT INTO ventas.ruta (conductor_id, vehiculo_id,empleado_id, distancia_km, tiempo_ruta,fecha_creacion) VALUES
+  (1, 1, 1,50, 120,'2024-03-01'),
+  (2, 1, 1,80, 480,'2024-03-01'),
+  (3, 1, 1,83, 480,'2024-03-01'),
+  (3, 1, 1,94, 560,'2024-03-01');
   
 
   
@@ -99,12 +99,12 @@ INSERT INTO ventas.pedido (ruta_id, cliente_nr_id, subtotal,descuento,total, fec
   ( 1, 1, 100,0.0,100, current_timestamp,'normal','pendiente');
   
   -- Insertar registros en la tabla producto
-INSERT INTO ventas.producto (nombre, precio, descripcion, stock,foto) VALUES
-  ('botella 700ml',10.00,'paquete x 15 und.',1000,'BIDON0.png'),
-  ('botella 3l',9.00,'paquete x 9 und.',1000,'BIDON03.png'),
-  ('botella 7l',5.50,'und.',1000,'BIDON7.png'),
-  ('bidon 20l',20.00,'und.',1000,'BIDON20.png'),
-  ('recarga',10.00,'und.',0,'RECARGA.png');
+INSERT INTO ventas.producto (nombre, precio, descripcion,foto) VALUES
+  ('botella 700ml',10.00,'paquete x 15 und.','BIDON0.png'),
+  ('botella 3l',9.00,'paquete x 9 und.','BIDON03.png'),
+  ('botella 7l',5.50,'und.','BIDON7.png'),
+  ('bidon 20l',20.00,'und.','BIDON20.png'),
+  ('recarga',10.00,'und.','RECARGA.png');
 
 INSERT INTO ventas.promocion (nombre, precio, descripcion, fecha_inicio,fecha_limite,foto) VALUES
   ('Promocion Veraniega',48.00,'Lleva 2 bidones NUEVOS x S/. 48.00',current_timestamp,current_timestamp,'BIDON0.png'),
@@ -141,5 +141,4 @@ INSERT INTO relaciones.ubicacion (latitud,longitud,direccion,cliente_nr_id,distr
 INSERT INTO ventas.producto_zona(zona_trabajo_id,producto_id,stock_padre) VALUES
 (1,1,300),
 (1,2,400),
-(1,3,340),
-()
+(1,3,340);
