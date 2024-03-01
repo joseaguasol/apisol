@@ -21,3 +21,21 @@ export const getVehiculosProductos = async (req,res)=> {
         res.status(500).json({error:error.message})
     }
 }
+export const updateVehiculoProductos = async (req,res) => {
+    try {
+        // EXTRAYENDO EL ID DE LA RUTA
+        const {vehiculoID} = req.params
+        const idvehiculo =parseInt(vehiculoID,10)
+
+
+        // EXTRAYENDO EL BODY 
+        const stock = req.body
+        const updatevehiculoproducto = await modelVehiculoProduct.updateVehiculoProduct(idvehiculo,stock)
+        console.log("------controllooerrr-----")
+        console.log(updatevehiculoproducto)
+        res.status(200).json(updatevehiculoproducto)
+
+    } catch (error) {
+        res.status(500).json({error:error.message})
+    }
+}

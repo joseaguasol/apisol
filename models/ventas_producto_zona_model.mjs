@@ -3,13 +3,16 @@ import { db_pool } from "../config.mjs";
 
 const modelProductoZona = {
     createProductoZona:async (productozona) => {
-        
+        console.log("Sasdfasdfasd")
 
         try{
-            const ProductoZone = await db_pool.oneOrNone(`INSERT INTO producto_zona (zona_trabajo_id,producto_id,stock_padre)
-            VALUES($1,$2,$3)`,
+            const ProductoZone = await db_pool.oneOrNone(
+                `INSERT INTO ventas.producto_zona (zona_trabajo_id,producto_id,stock_padre)
+            VALUES($1,$2,$3) RETURNING *`,
                 [productozona.zona_trabajo_id,productozona.producto_id,productozona.stock_padre])
            
+            console.log("---producto zone---")
+            console.log(ProductoZone)
             return ProductoZone
           
            
