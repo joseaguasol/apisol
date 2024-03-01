@@ -24,8 +24,8 @@ const modelUserAdmin = {
                     console.log(usuario.id)
                     
 
-                    const administradores = await t.one('INSERT INTO personal.administrador(usuario_id,nombres,apellidos,dni,fecha_nacimiento) VALUES($1,$2,$3,$4,$5) RETURNING *',
-                    [usuario.id,admin.nombres,admin.apellidos,admin.dni,admin.fecha_nacimiento]);
+                    const administradores = await t.one('INSERT INTO personal.administrador(usuario_id,nombres,apellidos,dni,fecha_nacimiento,zona_trabajo_id) VALUES($1,$2,$3,$4,$5,$6) RETURNING *',
+                    [usuario.id,admin.nombres,admin.apellidos,admin.dni,admin.fecha_nacimiento,admin.zona_trabajo_id]);
         
 
                     console.log("administradores+-++++");

@@ -25,8 +25,8 @@ const modelRuta = {
             console.log(ruta)
            // const io = await app_sol.get('io');
 
-            const rutas = await db_pool.one('INSERT INTO ventas.ruta (conductor_id,empleado_id,distancia_km,tiempo_ruta) VALUES ($1,$2,$3,$4) RETURNING *',
-            [ruta.conductor_id,ruta.empleado_id,ruta.distancia_km,ruta.tiempo_ruta]);
+            const rutas = await db_pool.one('INSERT INTO ventas.ruta (conductor_id,vehiculo_id,empleado_id,distancia_km,tiempo_ruta,fecha_creacion) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *',
+            [ruta.conductor_id,ruta.vehiculo_id,ruta.empleado_id,ruta.distancia_km,ruta.tiempo_ruta,ruta.fecha_creacion]);
             console.log("--INSERT RUTA")
             console.log(rutas)
             

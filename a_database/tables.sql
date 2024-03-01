@@ -25,7 +25,8 @@ create table relaciones.ubicacion(
 	direccion varchar(300),
 	cliente_id int,
 	cliente_nr_id int,
-	distrito varchar(300)    
+	distrito varchar(300),
+	zona_trabajo_id int -- NUEVO    
 );
 
 ------------------------------------
@@ -58,7 +59,8 @@ create table personal.administrador(
 	nombres varchar(200) not null,
 	apellidos varchar(200) not null,
 	dni varchar(100) not null,
-	fecha_nacimiento date not null
+	fecha_nacimiento date not null,
+	zona_trabajo_id int
 );
 
 -- Table: personal.conductor
@@ -69,7 +71,8 @@ create table personal.conductor(
 	apellidos varchar(100) not null,
 	licencia varchar (100) not null,
 	dni varchar(100) not null,
-	fecha_nacimiento date not null
+	fecha_nacimiento date not null,
+	administrador_id int
 );	
 
 -- Table: personal.empleado
@@ -80,7 +83,8 @@ create table personal.empleado(
 	apellidos varchar(200) not null,
 	dni varchar(200) not null,
 	fecha_nacimiento date not null,
-	codigo_empleado varchar(200)
+	codigo_empleado varchar(200),
+	administrador_id int
 );
 
 ------------------------------------
@@ -107,8 +111,7 @@ create table ventas.cliente(
 	direccion_empresa varchar(200),
 	suscripcion varchar(200),
 	nombre_empresa varchar(200),
-	frecuencia varchar(200),
-	zona_trabajo_id int
+	frecuencia varchar(200)
 );
 
 --SE AGREDO EMPLEADO ID
@@ -136,7 +139,8 @@ create table ventas.ruta(
 	empleado_id int,
 	distancia_km int,
 	tiempo_ruta int,
-	zona_trabajo_id int
+	fecha_creacion timestamp not null
+
 );
 
 -- Table: ventas.pedido
@@ -163,9 +167,26 @@ create table ventas.producto(
 	nombre varchar(200) not null,
 	precio float not null,
 	descripcion varchar(200) not null,
-	stock int not null,
 	foto varchar(200)
 );
+
+-- NUEVA NUEVA
+-- Table : PRODUCTOS_ZONATRABAJO ------------------------------------------------------------
+create table ventas.producto_zona(
+	id serial primary key,
+	zona_trabajo_id int,
+	producto_id int,
+	stock_padre int
+
+);
+--NUEVA NUEVA----------------------------------------------------------------------------------
+create table ventas.vehiculo_producto(
+	id serial primary key,
+	producto_id int,
+	vehiculo_id int,
+	stock_movil int
+);
+---------------------------------------------------------------------------------------------------
 
 --Table: ventas.promos
 create table ventas.promocion(
@@ -182,8 +203,8 @@ create table ventas.promocion(
 create table ventas.vehiculo(
 	id serial primary key,
 	nombre_modelo varchar(200),  -- NO LLAVE CONDUCTOR 
-	placa varchar(100) not null
-	
+	placa varchar(100) not null,
+	administrador_id int -- NUEVA
 );
 
 --Table: ventas.zona_trabajo
@@ -193,8 +214,8 @@ create table ventas.zona_trabajo(
 	ubicacion varchar(100), --GEOMETRY(POINT,4326), --municipalidad
 	poligono varchar(1000),--GEOMETRY(POLYGON,4326),
 	departamento varchar(50),
-	provincia varchar(50),
-	administrador_id int
+	provincia varchar(50)
+
 );
 
 ---------------------------------
@@ -223,15 +244,20 @@ create table relaciones.producto_promocion(
 ---------------------------------
 -- ALTER TABLE orders ADD CONSTRAINT fk_orders_customers FOREIGN KEY (customer_id) REFERENCES customers (id);
 
+-- PRODUCTO
+ALTER TABLE ventas.vehiculo_producto ADD CONSTRAINT fk_vehiculo_producto_product FOREIGN KEY(producto_id) REFERENCES ventas.producto(id) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE ventas.vehiculo_producto ADD CONSTRAINT fk_vehiculo_producto_vehiculo FOREIGN KEY(vehiculo_id) REFERENCES ventas.vehiculo(id) ON DELETE CASCADE ON UPDATE CASCADE;
+
 --- RUTA
 ALTER TABLE ventas.ruta ADD CONSTRAINT fk_ruta_empleado FOREIGN KEY (empleado_id) REFERENCES personal.empleado (id) ON DELETE SET NULL ON UPDATE CASCADE;
 ALTER TABLE ventas.ruta ADD CONSTRAINT fk_ruta_conductor FOREIGN KEY (conductor_id) REFERENCES personal.conductor (id) ON DELETE CASCADE ON UPDATE CASCADE;
-ALTER TABLE ventas.ruta ADD CONSTRAINT fk_ruta_zona_trabajo FOREIGN KEY (zona_trabajo_id) REFERENCES ventas.zona_trabajo (id) ON DELETE CASCADE ON UPDATE CASCADE;
+-- ALTER TABLE ventas.ruta ADD CONSTRAINT fk_ruta_zona_trabajo FOREIGN KEY (zona_trabajo_id) REFERENCES ventas.zona_trabajo (id) ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE ventas.ruta ADD CONSTRAINT fk_ruta_vehiculo FOREIGN KEY (vehiculo_id) REFERENCES ventas.vehiculo (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- PEDIDO
 ALTER TABLE ventas.pedido ADD CONSTRAINT fk_pedido_ruta FOREIGN KEY (ruta_id) REFERENCES ventas.ruta (id) ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE ventas.pedido ADD CONSTRAINT fk_pedido_cliente FOREIGN KEY (cliente_id) REFERENCES ventas.cliente (id) ON DELETE CASCADE ON UPDATE CASCADE;
+
 
 -- pedido-cliente nr
 ALTER TABLE ventas.pedido ADD CONSTRAINT fk_pedido_clientenr FOREIGN KEY (cliente_nr_id) REFERENCES ventas.cliente_noregistrado (id) ON DELETE SET NULL ON UPDATE CASCADE;
@@ -248,11 +274,13 @@ ALTER TABLE relaciones.producto_promocion ADD CONSTRAINT fk_productopromocion_pr
 
 
 -- ZONA TRABAJO
-ALTER TABLE ventas.zona_trabajo ADD CONSTRAINT fk_zona_trabajo_admin FOREIGN KEY (administrador_id) REFERENCES personal.administrador (id);
 
+ALTER TABLE ventas.producto_zona ADD CONSTRAINT fk_productozona_zona FOREIGN KEY(zona_trabajo_id) REFERENCES ventas.zona_trabajo(id) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE ventas.producto_zona ADD CONSTRAINT fk_productozona_producto FOREIGN KEY(producto_id) REFERENCES ventas.producto(id) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE personal.administrador ADD CONSTRAINT fk_zona_admin FOREIGN KEY (zona_trabajo_id) REFERENCES ventas.zona_trabajo(id) ON DELETE CASCADE ON UPDATE CASCADE;
 -- VEHICULO
  --- YA NO EXISTE LLAVE FORANEA CON CONDUCTOR
-
+ALTER TABLE ventas.vehiculo ADD CONSTRAINT fk_vehiculo_admin FOREIGN KEY (administrador_id) REFERENCES personal.administrador(id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- COMPRA
 ALTER TABLE relaciones.detalle_pedido ADD CONSTRAINT fk_compra_producto FOREIGN KEY (producto_id) REFERENCES ventas.producto (id);
@@ -262,9 +290,6 @@ ALTER TABLE relaciones.detalle_pedido ADD CONSTRAINT fk_compra_pedido FOREIGN KE
 -- ROLES
 ALTER TABLE personal.usuario ADD CONSTRAINT fk_usuario_rol FOREIGN KEY (rol_id) REFERENCES relaciones.roles(id);
 
--- CLIENTE
-ALTER TABLE ventas.cliente ADD CONSTRAINT fk_cliente_zona FOREIGN KEY (zona_trabajo_id) REFERENCES ventas.zona_trabajo (id) ON DELETE CASCADE ON UPDATE CASCADE;
-
 
 -- USUARIOS
 ALTER TABLE ventas.cliente ADD CONSTRAINT fk_cliente_usuario FOREIGN KEY (usuario_id) REFERENCES personal.usuario(id) ON DELETE CASCADE ON UPDATE CASCADE;
@@ -273,10 +298,17 @@ ALTER TABLE personal.administrador ADD CONSTRAINT fk_administrador_usuario FOREI
 ALTER TABLE personal.conductor ADD CONSTRAINT fk_conductor_usuario FOREIGN KEY (usuario_id) REFERENCES personal.usuario(id) ON DELETE CASCADE ON UPDATE CASCADE;
 ALTER TABLE personal.empleado ADD CONSTRAINT fk_empleado_usuario FOREIGN KEY (usuario_id) REFERENCES personal.usuario(id) ON DELETE CASCADE ON UPDATE CASCADE;
 
+--USUARIOS CON GESTION
+ALTER TABLE personal.conductor ADD CONSTRAINT fk_conductor_admin FOREIGN KEY(administrador_id) REFERENCES personal.administrador(id) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE personal.empleado ADD CONSTRAINT fk_empleado_admin FOREIGN KEY(administrador_id) REFERENCES personal.administrador(id) ON DELETE CASCADE ON UPDATE CASCADE;
+
+
+
 -- UBICACION
-ALTER TABLE relaciones.ubicacion ADD CONSTRAINT fk_cliente_ubicacion FOREIGN KEY (cliente_id) REFERENCES ventas.cliente ON DELETE CASCADE ON UPDATE CASCADE;
-ALTER TABLE relaciones.ubicacion ADD CONSTRAINT fk_cliente_nr_ubicacion FOREIGN KEY (cliente_nr_id) REFERENCES ventas.cliente_noregistrado ON DELETE CASCADE ON UPDATE CASCADE;
-ALTER TABLE ventas.pedido ADD CONSTRAINT fk_pedido_ubicacion_id FOREIGN KEY (ubicacion_id) REFERENCES relaciones.ubicacion ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE relaciones.ubicacion ADD CONSTRAINT fk_cliente_ubicacion FOREIGN KEY (cliente_id) REFERENCES ventas.cliente(id) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE relaciones.ubicacion ADD CONSTRAINT fk_cliente_nr_ubicacion FOREIGN KEY (cliente_nr_id) REFERENCES ventas.cliente_noregistrado(id) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE ventas.pedido ADD CONSTRAINT fk_pedido_ubicacion_id FOREIGN KEY (ubicacion_id) REFERENCES relaciones.ubicacion(id) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE relaciones.ubicacion ADD CONSTRAINT fk_ubicacion_zona FOREIGN KEY (zona_trabajo_id) REFERENCES ventas.zona_trabajo(id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- reseteo secuencias
 -- Roles

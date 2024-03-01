@@ -30,33 +30,33 @@ INSERT INTO personal.gerente (usuario_id, nombres, apellidos, dni, fecha_nacimie
   
  
  -- Insertar registros en la tabla administrador
-INSERT INTO personal.administrador (usuario_id, nombres, apellidos, dni, fecha_nacimiento) VALUES
-  (1, 'Coco chanel', 'Apellido1', '11111111', '1980-05-10');
+INSERT INTO personal.administrador (usuario_id, nombres, apellidos, dni, fecha_nacimiento,zona_trabajo_id) VALUES
+  (1, 'Coco chanel', 'Apellido1', '11111111', '1980-05-10',1);
   
 
 -- Insertar registros en la tabla empleado
-INSERT INTO personal.empleado (usuario_id, nombres, apellidos, dni, fecha_nacimiento, codigo_empleado) VALUES
-  (2, 'pepe pepin', 'Apellido3', '4567890123', '1988-02-08', 'EMPL003');
+INSERT INTO personal.empleado (usuario_id, nombres, apellidos, dni, fecha_nacimiento, codigo_empleado,administrador_id) VALUES
+  (2, 'pepe pepin', 'Apellido3', '4567890123', '1988-02-08', 'EMPL003',1);
 
   
 -- Insertar registros en la tabla vehiculo
-INSERT INTO ventas.vehiculo (nombre_modelo,placa ) VALUES
-  ('Yueyin', 'XE-2L2');
+INSERT INTO ventas.vehiculo (nombre_modelo,placa,administrador_id ) VALUES
+  ('Yueyin', 'XE-2L2',1);
 
 
 -- Insertar registros en la tabla conductor
-INSERT INTO personal.conductor (usuario_id, nombres, apellidos, licencia, dni, fecha_nacimiento) VALUES
-  (11, 'lucrecia', 'Apellido3', 'DEF456', '7890123456', '1980-12-04'),
-  (12, 'panchita camionera', 'Apellido3', 'DEM456', '23453234', '1990-12-04'),
-  (13, 'robertoto', 'sanchez', 'DEM456', '23453234', '1990-12-04');
+INSERT INTO personal.conductor (usuario_id, nombres, apellidos, licencia, dni, fecha_nacimiento,administrador_id) VALUES
+  (11, 'lucrecia', 'Apellido3', 'DEF456', '7890123456', '1980-12-04',1),
+  (12, 'panchita camionera', 'Apellido3', 'DEM456', '23453234', '1990-12-04',1),
+  (13, 'robertoto', 'sanchez', 'DEM456', '23453234', '1990-12-04',1);
 
 
 	
   -- Insertar registros en la tabla zona_trabajo
-INSERT INTO ventas.zona_trabajo (nombre, administrador_id) VALUES
-  ('default', 1),
-  ('la joya', 1),
-  ('omate', 1);
+INSERT INTO ventas.zona_trabajo (nombre) VALUES
+  ('camana'),
+  ('la joya'),
+  ('omate');
   
 
 	
@@ -81,11 +81,11 @@ INSERT INTO ventas.cliente_noregistrado (empleado_id,nombre, apellidos, direccio
 
 
 -- Insertar registros en la tabla ruta
-INSERT INTO ventas.ruta (conductor_id, vehiculo_id,empleado_id, distancia_km, tiempo_ruta, zona_trabajo_id) VALUES
-  (1, 1, 1,50, 120,1),
-  (2, 1, 1,80, 480,1),
-  (3, 1, 1,83, 480,1),
-  (3, 1, 1,94, 560,1);
+INSERT INTO ventas.ruta (conductor_id, vehiculo_id,empleado_id, distancia_km, tiempo_ruta) VALUES
+  (1, 1, 1,50, 120),
+  (2, 1, 1,80, 480),
+  (3, 1, 1,83, 480),
+  (3, 1, 1,94, 560);
   
 
   
@@ -129,9 +129,17 @@ INSERT INTO relaciones.detalle_pedido(pedido_id, producto_id, cantidad) VALUES
   (3, 1, 8);
 
 -- Insertar registros en ubicacion
-INSERT INTO relaciones.ubicacion (latitud,longitud,direccion,cliente_id,distrito) VALUES
-(-16.411647,-71.5785222,'Av Default',1,'Default');
+INSERT INTO relaciones.ubicacion (latitud,longitud,direccion,cliente_id,distrito,zona_trabajo_id) VALUES
+(-16.411647,-71.5785222,'Av Default',1,'Default',1);
 
 -- Insertar registros en ubicacion
-INSERT INTO relaciones.ubicacion (latitud,longitud,direccion,cliente_nr_id,distrito) VALUES
-(-16.4291483,-71.5854854,'Av Default',1,'Default');
+INSERT INTO relaciones.ubicacion (latitud,longitud,direccion,cliente_nr_id,distrito,zona_trabajo_id) VALUES
+(-16.4291483,-71.5854854,'Av Default',1,'Default',1);
+
+
+-- Insert productozona
+INSERT INTO ventas.producto_zona(zona_trabajo_id,producto_id,stock_padre) VALUES
+(1,1,300),
+(1,2,400),
+(1,3,340),
+()
