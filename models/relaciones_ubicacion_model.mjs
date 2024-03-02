@@ -4,8 +4,8 @@ const modelUbicacion = {
     createUbicacion :async(ubicacion) => {
         
         try {
-            const ubicaciones = await db_pool.one('INSERT INTO relaciones.ubicacion(latitud,longitud,direccion,cliente_id,cliente_nr_id,distrito) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *',
-            [ubicacion.latitud,ubicacion.longitud,ubicacion.direccion,ubicacion.cliente_id,ubicacion.cliente_nr_id,ubicacion.distrito])
+            const ubicaciones = await db_pool.one('INSERT INTO relaciones.ubicacion(latitud,longitud,direccion,cliente_id,cliente_nr_id,distrito,zona_trabajo_id) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *',
+            [ubicacion.latitud,ubicacion.longitud,ubicacion.direccion,ubicacion.cliente_id,ubicacion.cliente_nr_id,ubicacion.distrito,ubicacion.zona_trabajo_id])
             return ubicaciones
 
         } catch (error) {
