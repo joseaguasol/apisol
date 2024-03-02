@@ -4,7 +4,7 @@ import express from 'express';
 
 const routerZonas= express.Router();
 
-routerZonas.post('/zona',getZonas)
-routerZonas.get('/zona',createZonas)
+routerZonas.post('/zona',createZonas)
+routerZonas.get('/zona',getZonas)
 
 export default routerZonas
