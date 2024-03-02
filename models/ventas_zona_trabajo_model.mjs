@@ -1,6 +1,6 @@
 import { db_pool } from "../config.mjs";
 
-const modelUbicacion = { 
+const modelZonaTrabajo = { 
     createZona :async(zona) => {
         
         try {
