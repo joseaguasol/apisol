@@ -26,6 +26,7 @@ import routerUbicacion from "./routes/relaciones_ubicacion_route.mjs";
 import routerVehiculoProducto from "./routes/ventas_vehiculo_producto_route.mjs";
 import routerVehiculo from "./routes/ventas_vehiculo_route.mjs";
 import routerProductoZona from "./routes/ventas_producto_zona_route.mjs";
+import routerZonas from "./routes/ventas_zona_trabajo_route.mjs";
 
 /** INICIA LA APP Y EL PUERTO */
 const app_sol = express();
@@ -93,6 +94,7 @@ app_sol.use('/api',routerUbicacion);
 app_sol.use('/api',routerVehiculoProducto);
 app_sol.use('/api',routerVehiculo);
 app_sol.use('/api',routerProductoZona);
+app_sol.use('/api',routerZonas);
 
 
 server.listen(port, ()=>{
