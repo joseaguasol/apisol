@@ -1,4 +1,4 @@
-import modelProductoZona from "../models/ventas_producto_zona.mjs";
+import modelProductoZona from "../models/ventas_producto_zona_model.mjs";
 
 export const createProductoZonas = async (req,res) => {
     try {
