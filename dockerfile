@@ -19,12 +19,8 @@ RUN apt-get update && apt-get install -y nginx
 # Copia el archivo de configuración de Nginx
 COPY nginx/default.conf /etc/nginx/sites-available/default
 
-# Crea un script de shell para manejar la lógica de enlace simbólico
-COPY nginx/create-symlink.sh /usr/src/app/create-symlink.sh
-RUN chmod +x /usr/src/app/create-symlink.sh
-
-# Ejecuta el script para crear el enlace simbólico si no existe
-RUN /usr/src/app/create-symlink.sh
+# Crea el enlace simbólico para activar la configuración
+RUN ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
 # Expone los puertos de la aplicación y Nginx
 EXPOSE 3000 80
