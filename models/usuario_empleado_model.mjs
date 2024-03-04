@@ -24,7 +24,7 @@ const modelUserEmpleado = {
                     
 
                     const empleados = await t.one('INSERT INTO personal.empleado (usuario_id, nombres, apellidos, dni, fecha_nacimiento, codigo_empleado,administrador_id) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *',
-                    [usuario.id, empleado.nombres, empleado.apellidos, empleado.dni, empleado.fecha_nacimiento,empleado.codigo_empleado,administrador_id]);
+                    [usuario.id, empleado.nombres, empleado.apellidos, empleado.dni, empleado.fecha_nacimiento,empleado.codigo_empleado,empleado.administrador_id]);
         
 
                     console.log("empleados+-++++");
