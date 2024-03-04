@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install -y nginx
 COPY nginx/default.conf /etc/nginx/sites-available/default
 
 # Crea el enlace simbólico para activar la configuración
-RUN ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+RUN [ ! -e /etc/nginx/sites-enabled/default ] && ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
 # Expone los puertos de la aplicación y Nginx
 EXPOSE 3000 80
