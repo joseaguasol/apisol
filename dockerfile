@@ -13,8 +13,17 @@ RUN npm install
 # Copia el código fuente de la aplicación al contenedor
 COPY . .
 
-# Expone el puerto en el que se ejecutará la aplicación
-EXPOSE 3000
+# Instala Nginx
+RUN apt-get update && apt-get install -y nginx
 
-# Comando para ejecutar la aplicación
-CMD ["node", "index.mjs"]
+# Copia el archivo de configuración de Nginx
+COPY nginx/default.conf /etc/nginx/sites-available/default
+
+# Crea el enlace simbólico para activar la configuración
+RUN ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+
+# Expone los puertos de la aplicación y Nginx
+EXPOSE 3000 80
+
+# Comando para ejecutar la aplicación y Nginx
+CMD ["sh", "-c", "node index.mjs & nginx -g 'daemon off;'"]
